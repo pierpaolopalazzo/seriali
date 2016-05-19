@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="SqlServerIPAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="SqlServerUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sa</Value>
+    </Setting>
+    <Setting Name="SqlServerPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">password</Value>
+    </Setting>
+    <Setting Name="SqlServerDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ReadyDB</Value>
+    </Setting>
+    <Setting Name="MySqlIPAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="MySqlUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)">root</Value>
+    </Setting>
+    <Setting Name="MySqlPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">password</Value>
+    </Setting>
+    <Setting Name="MySqlDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">seriali</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
