@@ -10,7 +10,11 @@ Module ModuloReady
     Sub ApriConnessione()
         ConnSQL.Close()
         ConnSQL.ConnectionString = "Data Source=" & My.Settings.SqlServerIPAddress & ";Initial Catalog=" & My.Settings.SqlServerDB & ";User ID=" & My.Settings.SqlServerUsername & ";Password=" & My.Settings.SqlServerPassword 'ConfigurationManager.ConnectionStrings("ConnectionString").ToString()
-        ConnSQL.Open()
+        Try
+            ConnSQL.Open()
+        Catch
+            MsgBox("errore DB Ready. Rivedere setup")
+        End Try
     End Sub
 
     Sub ChiudiConnessione()

@@ -194,25 +194,25 @@ Partial Class Form_90_Setup
         '
         Me.Button2.Location = New System.Drawing.Point(34, 118)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(206, 23)
+        Me.Button2.Size = New System.Drawing.Size(308, 23)
         Me.Button2.TabIndex = 16
-        Me.Button2.Text = "test DB Ready (solo connessione)"
+        Me.Button2.Text = "memorizza + test DB Ready (solo connessione)"
         Me.Button2.UseVisualStyleBackColor = True
         '
         'Button3
         '
         Me.Button3.Location = New System.Drawing.Point(34, 269)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(206, 23)
+        Me.Button3.Size = New System.Drawing.Size(308, 23)
         Me.Button3.TabIndex = 17
-        Me.Button3.Text = "test DB seriali (solo connessione)"
+        Me.Button3.Text = "memorizza + test DB seriali (solo connessione)"
         Me.Button3.UseVisualStyleBackColor = True
         '
         'Form_90_Setup
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(568, 708)
+        Me.ClientSize = New System.Drawing.Size(386, 433)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.MySql_DB)
