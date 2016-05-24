@@ -12,9 +12,16 @@ Public Class Form_11_Carichi_Seriali_Rdy
         Dim data1Conv = data1.ToString("yyyyMMdd")
         Dim data2 As Date = DataIns2.Value
         Dim data2Conv = data2.ToString("yyyyMMdd")
+        Dim righetotali As Integer
 
         MyDoBrowse("SELECT DOC, FORNITORE, count(SERIALE) AS TOT FROM SERIALI WHERE DATA>='" & data1Conv & "' AND  DATA<='" & data2Conv & "' AND CARICATO='CARICO' GROUP BY DOC, FORNITORE ORDER BY DOC", "SERIALI")
-        Dim righetotali As Integer = DSMYSQL.Tables("SERIALI").Rows.Count
+
+        Try
+            righetotali = DSMYSQL.Tables("SERIALI").Rows.Count
+        Catch
+            MsgBox("Database seriali non disponibile. Verificare Setup")
+            Return
+        End Try
         Dim risultato As String = ""
         If righetotali > 0 Then
             For Each riga As Data.DataRow In DSMYSQL.Tables("SERIALI").Rows

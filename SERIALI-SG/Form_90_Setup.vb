@@ -1,5 +1,5 @@
 ﻿Public Class Form_90_Setup
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnMemorizza.Click
         My.Settings.SqlServerIPAddress = SQL_IP.Text
         My.Settings.SqlServerUsername = SQL_User.Text
         My.Settings.SqlServerPassword = SQL_Pass.Text
@@ -26,6 +26,27 @@
         MySql_User.Text = My.Settings.MySqlUsername
         MySql_Pass.Text = My.Settings.MySqlPassword
         MySql_DB.Text = My.Settings.MySqlDB
+
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+
+        Dim righe As Integer
+
+        DoBrowse("SELECT Bolle.*, BolleTipi.Descrizione, [Descrizione causale] FROM Bolle INNER JOIN BolleTipi ON Bolle.[Tipo documento] = BolleTipi.IdTipoDocumento LEFT OUTER JOIN [Causali bolle] ON Bolle.[Causale bolla] = [Causali bolle].[ID causale] WHERE (Bolle.[Tipo documento] = 5 OR Bolle.[Tipo documento] = 13) and ([Causali bolle].[Tipo documento]=5 or [Causali bolle].[Tipo documento]=13) and Bolle.[Data bolla]>='" & data1Conv & "'  and Bolle.[Data bolla]<='" & data2Conv & "' and [Descrizione causale] like '%ACQUISTO%'", "Bolle")
+        Try
+            righe = DSSQL.Tables("Bolle").Rows.Count
+        Catch
+            MsgBox("test fallito")
+            Return
+        End Try
+        If righe > 0 Then
+            MsgBox("test ok")
+            Return
+        End If
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
 
     End Sub
 End Class

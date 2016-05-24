@@ -17,11 +17,17 @@
 
         Dim paginaSeriali As String = ""
         Dim paginaReady As String = ""
-
+        Dim righe As Integer
 
         Dim risultato As String = ""
         DoBrowse("SELECT Bolle.*, BolleTipi.Descrizione, [Descrizione causale] FROM Bolle INNER JOIN BolleTipi ON Bolle.[Tipo documento] = BolleTipi.IdTipoDocumento LEFT OUTER JOIN [Causali bolle] ON Bolle.[Causale bolla] = [Causali bolle].[ID causale] WHERE (Bolle.[Tipo documento] = 5 OR Bolle.[Tipo documento] = 13) and ([Causali bolle].[Tipo documento]=5 or [Causali bolle].[Tipo documento]=13) and Bolle.[Data bolla]>='" & data1Conv & "'  and Bolle.[Data bolla]<='" & data2Conv & "' and [Descrizione causale] like '%ACQUISTO%'", "Bolle")
-        If DSSQL.Tables("Bolle").Rows.Count > 0 Then
+        Try
+            righe = DSSQL.Tables("Bolle").Rows.Count
+        Catch
+            MsgBox("Database Ready non disponibile. Verificare Setup")
+            Return
+        End Try
+        If righe > 0 Then
             For Each riga As Data.DataRow In DSSQL.Tables("Bolle").Rows
                 Dim fornitore As String = Microsoft.VisualBasic.Left(riga("Intestazione"), 15)
                 paginaReady = "<table  width='100%'><tr style='background: cornflowerblue;color: #fff;font-weight: bold;'><td>Documento</td><td>Fornitore</td><td text-align:right'>TOTALE</td></tr>"
@@ -38,7 +44,6 @@
                 risultato += "<td align='right' style='width:50%'>" & paginaSeriali & "</td>"
                 risultato += "</table><hr />"
             Next
-
         End If
         DSSQL.Dispose()
         WebBrowser1.DocumentText = "<style>#tableID{font-family: verdana;font-size: 10pt;margin-bottom:5px} #tableID table{font-family: verdana;font-size: 10pt;margin-bottom:5px;width:100%} #tableID table td{padding:5px;border: solid 1px #ccc;}</style><table style='font-family: verdana;font-size: 14pt;width:100%;text-align:center;'><tr><td style='width:50%;background-color: #B4C9F1;'>Carico Ready PRO</td><td style='width:50%;background-color: #E8A4A5;'>Carico IMEI</td></tr></table>" & risultato

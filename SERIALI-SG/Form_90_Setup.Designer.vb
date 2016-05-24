@@ -34,11 +34,13 @@ Partial Class Form_90_Setup
         Me.MySql_Pass = New System.Windows.Forms.TextBox()
         Me.MySql_User = New System.Windows.Forms.TextBox()
         Me.MySql_IP = New System.Windows.Forms.TextBox()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnMemorizza = New System.Windows.Forms.Button()
         Me.SQL_DB = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.MySql_DB = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'LabelReadyIP
@@ -71,7 +73,7 @@ Partial Class Form_90_Setup
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(31, 153)
+        Me.Label5.Location = New System.Drawing.Point(31, 176)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(161, 13)
         Me.Label5.TabIndex = 3
@@ -80,7 +82,7 @@ Partial Class Form_90_Setup
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(31, 178)
+        Me.Label3.Location = New System.Drawing.Point(31, 201)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(158, 13)
         Me.Label3.TabIndex = 4
@@ -89,7 +91,7 @@ Partial Class Form_90_Setup
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(31, 204)
+        Me.Label4.Location = New System.Drawing.Point(31, 227)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(156, 13)
         Me.Label4.TabIndex = 5
@@ -122,7 +124,7 @@ Partial Class Form_90_Setup
         '
         'MySql_Pass
         '
-        Me.MySql_Pass.Location = New System.Drawing.Point(242, 197)
+        Me.MySql_Pass.Location = New System.Drawing.Point(242, 220)
         Me.MySql_Pass.Name = "MySql_Pass"
         Me.MySql_Pass.PasswordChar = Global.Microsoft.VisualBasic.ChrW(120)
         Me.MySql_Pass.Size = New System.Drawing.Size(100, 20)
@@ -131,7 +133,7 @@ Partial Class Form_90_Setup
         '
         'MySql_User
         '
-        Me.MySql_User.Location = New System.Drawing.Point(242, 171)
+        Me.MySql_User.Location = New System.Drawing.Point(242, 194)
         Me.MySql_User.Name = "MySql_User"
         Me.MySql_User.Size = New System.Drawing.Size(100, 20)
         Me.MySql_User.TabIndex = 6
@@ -139,20 +141,20 @@ Partial Class Form_90_Setup
         '
         'MySql_IP
         '
-        Me.MySql_IP.Location = New System.Drawing.Point(242, 146)
+        Me.MySql_IP.Location = New System.Drawing.Point(242, 169)
         Me.MySql_IP.Name = "MySql_IP"
         Me.MySql_IP.Size = New System.Drawing.Size(100, 20)
         Me.MySql_IP.TabIndex = 5
         Me.MySql_IP.Text = "127.0.0.1"
         '
-        'Button1
+        'btnMemorizza
         '
-        Me.Button1.Location = New System.Drawing.Point(166, 311)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(137, 30)
-        Me.Button1.TabIndex = 9
-        Me.Button1.Text = "Memorizza setup"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnMemorizza.Location = New System.Drawing.Point(142, 366)
+        Me.btnMemorizza.Name = "btnMemorizza"
+        Me.btnMemorizza.Size = New System.Drawing.Size(137, 30)
+        Me.btnMemorizza.TabIndex = 9
+        Me.btnMemorizza.Text = "Memorizza setup"
+        Me.btnMemorizza.UseVisualStyleBackColor = True
         '
         'SQL_DB
         '
@@ -173,7 +175,7 @@ Partial Class Form_90_Setup
         '
         'MySql_DB
         '
-        Me.MySql_DB.Location = New System.Drawing.Point(242, 223)
+        Me.MySql_DB.Location = New System.Drawing.Point(242, 246)
         Me.MySql_DB.Name = "MySql_DB"
         Me.MySql_DB.Size = New System.Drawing.Size(100, 20)
         Me.MySql_DB.TabIndex = 8
@@ -182,22 +184,42 @@ Partial Class Form_90_Setup
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(31, 230)
+        Me.Label7.Location = New System.Drawing.Point(31, 253)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(125, 13)
         Me.Label7.TabIndex = 15
         Me.Label7.Text = "DB MySQL Server Seriali"
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(34, 118)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(206, 23)
+        Me.Button2.TabIndex = 16
+        Me.Button2.Text = "test DB Ready (solo connessione)"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(34, 269)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(206, 23)
+        Me.Button3.TabIndex = 17
+        Me.Button3.Text = "test DB seriali (solo connessione)"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'Form_90_Setup
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(568, 708)
+        Me.Controls.Add(Me.Button3)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.MySql_DB)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.SQL_DB)
         Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.btnMemorizza)
         Me.Controls.Add(Me.MySql_Pass)
         Me.Controls.Add(Me.MySql_User)
         Me.Controls.Add(Me.MySql_IP)
@@ -229,9 +251,11 @@ Partial Class Form_90_Setup
     Friend WithEvents MySql_Pass As TextBox
     Friend WithEvents MySql_User As TextBox
     Friend WithEvents MySql_IP As TextBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnMemorizza As Button
     Friend WithEvents SQL_DB As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents MySql_DB As TextBox
     Friend WithEvents Label7 As Label
+    Friend WithEvents Button2 As Button
+    Friend WithEvents Button3 As Button
 End Class
