@@ -6,10 +6,12 @@
     End Sub
 
     Private Sub btnCerca_Click(sender As Object, e As EventArgs) Handles btnCerca.Click
-        CeracaReady()
+        CercaReady()
     End Sub
+
     Dim totPZ As Integer = 0
-    Sub CeracaReady()
+
+    Sub CercaReady()
         Dim data1 As Date = DataIns.Value
         Dim data1Conv = data1.ToString("yyyy-MM-dd")
         Dim data2 As Date = DataIns2.Value
@@ -37,7 +39,15 @@
                 paginaReady = Replace(paginaReady, "@PEZZI", totPZ)
                 totPZ = 0
 
-                paginaSeriali = caricaSeriali(riga("Numero bolla"), riga("Documento di riferimento"), Microsoft.VisualBasic.Left(fornitore, 10))
+                Dim docrif As String
+
+                Try
+                    docrif = riga("Documento di riferimento")
+                Catch
+                    docrif = ""
+                End Try
+
+                paginaSeriali = caricaSeriali(riga("Numero bolla"), docrif, Microsoft.VisualBasic.Left(fornitore, 10))
 
                 risultato += "<table id='tableID' style='width:100%'><tr style='vertical-align:top;'>"
                 risultato += "<td align='left' style='width:50%'>" & paginaReady & "</td>"
