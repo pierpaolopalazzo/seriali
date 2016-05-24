@@ -16,12 +16,13 @@
         Dim data1Conv = data1.ToString("yyyy-MM-dd")
         Dim data2 As Date = DataIns2.Value
         Dim data2Conv = data2.ToString("yyyy-MM-dd")
-
-        Dim paginaSeriali As String = ""
-        Dim paginaReady As String = ""
+        Dim paginaSeriali As String
+        Dim paginaReady As String
         Dim righe As Integer
+        Dim risultato As String
+        Dim fornitore As String
+        Dim docrif As String
 
-        Dim risultato As String = ""
         DoBrowse("SELECT Bolle.*, BolleTipi.Descrizione, [Descrizione causale] FROM Bolle INNER JOIN BolleTipi ON Bolle.[Tipo documento] = BolleTipi.IdTipoDocumento LEFT OUTER JOIN [Causali bolle] ON Bolle.[Causale bolla] = [Causali bolle].[ID causale] WHERE (Bolle.[Tipo documento] = 5 OR Bolle.[Tipo documento] = 13) and ([Causali bolle].[Tipo documento]=5 or [Causali bolle].[Tipo documento]=13) and Bolle.[Data bolla]>='" & data1Conv & "'  and Bolle.[Data bolla]<='" & data2Conv & "' and [Descrizione causale] like '%ACQUISTO%'", "Bolle")
         Try
             righe = DSSQL.Tables("Bolle").Rows.Count
@@ -29,34 +30,44 @@
             MsgBox("Database Ready non disponibile. Verificare Setup")
             Return
         End Try
+        risultato = ""
         If righe > 0 Then
             For Each riga As Data.DataRow In DSSQL.Tables("Bolle").Rows
-                Dim fornitore As String = Microsoft.VisualBasic.Left(riga("Intestazione"), 15)
-                paginaReady = "<table  width='100%'><tr style='background: cornflowerblue;color: #fff;font-weight: bold;'><td>Documento</td><td>Fornitore</td><td text-align:right'>TOTALE</td></tr>"
-                paginaReady += "<tr class='Padding'><td>" & riga("numero bolla") & "</td><td>" & fornitore & "</td><td style='text-align:right'>@PEZZI</td></tr>"
+                fornitore = Microsoft.VisualBasic.Left(riga("Intestazione"), 15)
+                paginaReady = "<table  width='100%'>"
+                paginaReady += "    <tr style='background: cornflowerblue;color: #fff;font-weight: bold;'>"
+                paginaReady += "        <td>Documento</td>"
+                paginaReady += "        <td>Fornitore</td>"
+                paginaReady += "        <td text-align:right'>TOTALE</td>"
+                paginaReady += "    </tr>"
+                paginaReady += "    <tr class='Padding'>"
+                paginaReady += "        <td>" & riga("numero bolla") & "</td>"
+                paginaReady += "        <td>" & fornitore & "</td>"
+                paginaReady += "        <td style='text-align:right'>@PEZZI</td>"
+                paginaReady += "    </tr>"
                 paginaReady += dettaglioReady(riga("Id bolla"))
                 paginaReady += "</table>"
                 paginaReady = Replace(paginaReady, "@PEZZI", totPZ)
                 totPZ = 0
-
-                Dim docrif As String
 
                 Try
                     docrif = riga("Documento di riferimento")
                 Catch
                     docrif = ""
                 End Try
-
                 paginaSeriali = caricaSeriali(riga("Numero bolla"), docrif, Microsoft.VisualBasic.Left(fornitore, 10))
 
-                risultato += "<table id='tableID' style='width:100%'><tr style='vertical-align:top;'>"
-                risultato += "<td align='left' style='width:50%'>" & paginaReady & "</td>"
-                risultato += "<td align='right' style='width:50%'>" & paginaSeriali & "</td>"
-                risultato += "</table><hr />"
+                risultato += "<table id='tableID' style='width:100%'>"
+                risultato += "  <tr style='vertical-align:top;'>"
+                risultato += "      <td align='left' style='width:50%'>" & paginaReady & "</td>"
+                risultato += "      <td align='right' style='width:50%'>" & paginaSeriali & "</td>"
+                risultato += "  </tr>"
+                risultato += "</table>"
+                risultato += "<hr />"
             Next
         End If
         DSSQL.Dispose()
-        WebBrowser1.DocumentText = "<style>#tableID{font-family: verdana;font-size: 10pt;margin-bottom:5px} #tableID table{font-family: verdana;font-size: 10pt;margin-bottom:5px;width:100%} #tableID table td{padding:5px;border: solid 1px #ccc;}</style><table style='font-family: verdana;font-size: 14pt;width:100%;text-align:center;'><tr><td style='width:50%;background-color: #B4C9F1;'>Carico Ready PRO</td><td style='width:50%;background-color: #E8A4A5;'>Carico IMEI</td></tr></table>" & risultato
+        WebBrowser1.DocumentText = "<style>#tableID{font-family: verdana;font-size: 10pt;margin-bottom:5px} #tableID table{font-family: verdana;font-size: 10pt;margin-bottom:5px;width:100%} #tableID table td{padding:5px;border: solid 1px #ccc;}</style><table style='font-family: verdana;font-size: 14pt;width:100%;text-align:center;'><tr><td style='width:50%;background-color: #B4C9F1;'>Carico Ready PRO</td><td style='width:50%;background-color: #B4C9F1;'>Carico IMEI</td></tr></table>" & risultato
     End Sub
 
     Function dettaglioReady(ByVal cod As Integer) As String
