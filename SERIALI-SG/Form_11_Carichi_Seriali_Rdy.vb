@@ -12,12 +12,13 @@ Public Class Form_11_Carichi_Seriali_Rdy
         Dim data1Conv = data1.ToString("yyyyMMdd")
         Dim data2 As Date = DataIns2.Value
         Dim data2Conv = data2.ToString("yyyyMMdd")
+
         Dim righetotali As Integer
         Dim paginaReady As String
         Dim paginaSeriali As String
-        Dim risultato As String
+        Dim risultato As String = ""
 
-        MyDoBrowse("SELECT DOC, FORNITORE, count(SERIALE) AS TOT FROM SERIALI WHERE DATA>='" & data1Conv & "' AND  DATA<='" & data2Conv & "' AND CARICATO='CARICO' GROUP BY DOC, FORNITORE ORDER BY DOC", "SERIALI")
+        MyDoBrowse("SELECT DOC, FORNITORE, datadoc, count(SERIALE) AS TOT FROM SERIALI WHERE DATA>='" & data1Conv & "' AND  DATA<='" & data2Conv & "' AND CARICATO='CARICO' GROUP BY DOC, FORNITORE, datadoc ORDER BY DOC", "SERIALI")
 
         Try
             righetotali = DSMYSQL.Tables("SERIALI").Rows.Count
@@ -25,7 +26,7 @@ Public Class Form_11_Carichi_Seriali_Rdy
             MsgBox("Database seriali non disponibile. Verificare Setup")
             Return
         End Try
-        risultato = ""
+
         If righetotali > 0 Then
             For Each riga As Data.DataRow In DSMYSQL.Tables("SERIALI").Rows
 
@@ -43,7 +44,7 @@ Public Class Form_11_Carichi_Seriali_Rdy
                 paginaSeriali += Dettagli(riga("DOC"), riga("FORNITORE"))
                 paginaSeriali += "</table>"
 
-                paginaReady = verificaReady(riga("DOC"), Microsoft.VisualBasic.Left(riga("FORNITORE"), 10))
+                paginaReady = verificaReady(riga("DOC"), Microsoft.VisualBasic.Left(riga("FORNITORE"), 10), riga("datadoc"))
 
                 risultato += "<table id='tableID' style='width:100%;font-family: verdana;font-size: 10pt;margin-bottom:5px'>"
                 risultato += "  <tr style='vertical-align:top;'>"
@@ -86,18 +87,18 @@ Public Class Form_11_Carichi_Seriali_Rdy
         Return risultato
     End Function
 
-    Function verificaReady(ByVal bolla As String, ByVal forn As String) As String
+    Function verificaReady(ByVal bolla As String, ByVal forn As String, ByVal datadoc As String) As String
         Dim stringa As String = ""
         Dim riga As Data.DataRow
         Dim query As String
 
 
-        query = "SELECT Bolle.*, BolleTipi.Descrizione, [Descrizione causale] FROM Bolle INNER JOIN BolleTipi ON Bolle.[Tipo documento] = BolleTipi.IdTipoDocumento LEFT OUTER JOIN [Causali bolle] ON Bolle.[Causale bolla] = [Causali bolle].[ID causale] WHERE (Bolle.[Tipo documento] = 5 OR Bolle.[Tipo documento] = 13) and ([Causali bolle].[Tipo documento]=5 or [Causali bolle].[Tipo documento]=13) and (Bolle.[Numero bolla] = '" & bolla & "' or [Documento di riferimento]='" & bolla & "') and Intestazione LIKE '" & forn & "%' and [Descrizione causale] like '%ACQUISTO%'"
+        query = "SELECT Bolle.*, BolleTipi.Descrizione, [Descrizione causale] FROM Bolle INNER JOIN BolleTipi ON Bolle.[Tipo documento] = BolleTipi.IdTipoDocumento LEFT OUTER JOIN [Causali bolle] ON Bolle.[Causale bolla] = [Causali bolle].[ID causale] WHERE (Bolle.[Tipo documento] = 5 OR Bolle.[Tipo documento] = 13) and [Data Bolla]=CONVERT(datetime,'" & datadoc & "', 103) and ([Causali bolle].[Tipo documento]=5 or [Causali bolle].[Tipo documento]=13) and (Bolle.[Numero bolla] = '" & bolla & "' or [Documento di riferimento]='" & bolla & "') and Intestazione LIKE '" & forn & "%' and [Descrizione causale] like '%ACQUISTO%'"
         DoBrowse(query, "Bolle")
         If DSSQL.Tables("Bolle").Rows.Count > 0 Then
             riga = DSSQL.Tables("Bolle").Rows(0)
             stringa = "<table style='font-family: verdana;font-size: 10pt;margin-bottom:5px' width='100%'><tr style='background: cornflowerblue;color: #fff;font-weight: bold;'><td style='border: solid 1px #ccc;padding:5px'>Documento</td><td style='border: solid 1px #ccc;padding:5px'>Fornitore</td><td style='border: solid 1px #ccc;text-align:right'>TOTALE</td></tr>"
-            stringa += "<tr class='Padding'><td style='border: solid 1px #ccc;padding:5px'>" & bolla & "</td><td style='border: solid 1px #ccc;padding:5px'>" & forn & query & "</td><td style='border: solid 1px #ccc;text-align:right'>@PEZZI</td></tr>"
+            stringa += "<tr class='Padding'><td style='border: solid 1px #ccc;padding:5px'>" & bolla & "</td><td style='border: solid 1px #ccc;padding:5px'>" & forn & "</td><td style='border: solid 1px #ccc;text-align:right'>@PEZZI</td></tr>"
             stringa += dettaglioReady(riga("Id bolla"))
             stringa += "</table>"
             stringa = Replace(stringa, "@PEZZI", totPZ)
