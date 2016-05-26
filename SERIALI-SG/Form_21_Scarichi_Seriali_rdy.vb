@@ -1,13 +1,12 @@
-﻿Imports EASendMail
-
-Public Class Form_11_Carichi_Seriali_Rdy
+﻿Public Class Form_21_Scarichi_Seriali_rdy
 
     Dim totPZ As Integer = 0
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-    End Sub
-
     Private Sub btnVerifica_Click(sender As Object, e As EventArgs) Handles btnVerifica.Click
+        verifica()
+    End Sub
+    Sub verifica()
+
         Dim data1 As Date = DataIns.Value
         Dim data1Conv = data1.ToString("yyyyMMdd")
         Dim data2 As Date = DataIns2.Value
@@ -18,7 +17,7 @@ Public Class Form_11_Carichi_Seriali_Rdy
         Dim paginaSeriali As String
         Dim risultato As String = ""
 
-        MyDoBrowse("SELECT DOC, FORNITORE, datadoc, count(SERIALE) AS TOT FROM SERIALI WHERE DATA>='" & data1Conv & "' AND  DATA<='" & data2Conv & "' AND CARICATO='CARICO' GROUP BY DOC, FORNITORE, datadoc ORDER BY DOC", "SERIALI")
+        MyDoBrowse("SELECT DOC, DATA, FORNITORE, DATADOC, count(SERIALE) AS TOT, IFNULL(num_fattura, 'VUOTO') as FATTURA FROM SERIALI WHERE DATA>='" & data1Conv & "' AND  DATA<='" & data2Conv & "' AND CARICATO='SCARICO' GROUP BY DOC, DATA, FORNITORE, datadoc ORDER BY DOC", "SERIALI")
 
         Try
             righetotali = DSMYSQL.Tables("SERIALI").Rows.Count
@@ -26,6 +25,22 @@ Public Class Form_11_Carichi_Seriali_Rdy
             MsgBox("Database seriali non disponibile. Verificare Setup")
             Return
         End Try
+
+        'aggiungo i risultati alla griglia
+        Dim dt As DataTable = DSMYSQL.Tables("seriali")
+        DataGridView1.DataSource = dt
+
+        'creo il pulsante per la modifica del numero fattura
+        If DataGridView1.Columns("btnMod") Is Nothing Then
+            Dim btnMod As New DataGridViewButtonColumn
+            btnMod.HeaderText = "MOD."
+            btnMod.Text = "Mod."
+            btnMod.Name = "btnMod"
+            btnMod.UseColumnTextForButtonValue = True
+            DataGridView1.Columns.Insert(6, btnMod)
+        End If
+
+        DataGridView1.Refresh()
 
         If righetotali > 0 Then
             For Each riga As Data.DataRow In DSMYSQL.Tables("SERIALI").Rows
@@ -44,7 +59,7 @@ Public Class Form_11_Carichi_Seriali_Rdy
                 paginaSeriali += Dettagli(riga("DOC"), riga("FORNITORE"))
                 paginaSeriali += "</table>"
 
-                paginaReady = verificaReady(riga("DOC"), Microsoft.VisualBasic.Left(riga("FORNITORE"), 10), riga("datadoc"))
+                paginaReady = verificaReady(riga("FATTURA"), Microsoft.VisualBasic.Left(riga("FORNITORE"), 10), riga("datadoc"))
 
                 risultato += "<table id='tableID' style='width:100%;font-family: verdana;font-size: 10pt;margin-bottom:5px'>"
                 risultato += "  <tr style='vertical-align:top;'>"
@@ -62,8 +77,8 @@ Public Class Form_11_Carichi_Seriali_Rdy
 
         ris2 = "<table style='font-family: verdana;font-size: 14pt;width:100%;text-align:center;'>"
         ris2 += "   <tr>"
-        ris2 += "       <td style='width:50%;background-color: #B4C9F1;'>Carico Ready PRO</td>"
-        ris2 += "       <td style='width:50%;background-color: #B4C9F1;'>Carico IMEI</td>"
+        ris2 += "       <td style='width:50%;background-color: #B4C9F1;'>Scarico Ready PRO</td>"
+        ris2 += "       <td style='width:50%;background-color: #B4C9F1;'>Scarico IMEI</td>"
         ris2 += "   </tr>"
         ris2 += "</table>"
         ris2 += risultato
@@ -72,7 +87,6 @@ Public Class Form_11_Carichi_Seriali_Rdy
         'WebBrowser1.DocumentText = "<table style='font-family: verdana;font-size: 14pt;width:100%;text-align:center;'><tr><td style='width:50%;background-color: #B4C9F1;'>Carico IMEI</td><td style='width:50%;background-color: #E8A4A5;'>Carico Ready PRO</td></tr></table>" & risultato
 
     End Sub
-
     Function Dettagli(ByVal doc As String, ByVal forn As String) As String
         Dim risultato As String = ""
         Dim righetotali As Integer
@@ -93,7 +107,8 @@ Public Class Form_11_Carichi_Seriali_Rdy
         Dim query As String
 
 
-        query = "SELECT Bolle.*, BolleTipi.Descrizione, [Descrizione causale] FROM Bolle INNER JOIN BolleTipi ON Bolle.[Tipo documento] = BolleTipi.IdTipoDocumento LEFT OUTER JOIN [Causali bolle] ON Bolle.[Causale bolla] = [Causali bolle].[ID causale] WHERE (Bolle.[Tipo documento] = 5 OR Bolle.[Tipo documento] = 13) and [Data Bolla]=CONVERT(datetime,'" & datadoc & "', 103) and ([Causali bolle].[Tipo documento]=5 or [Causali bolle].[Tipo documento]=13) and (Bolle.[Numero bolla] = '" & bolla & "' or [Documento di riferimento]='" & bolla & "') and Intestazione LIKE '" & forn & "%' and [Descrizione causale] like '%ACQUISTO%'"
+        'query = "SELECT Bolle.*, BolleTipi.Descrizione, [Descrizione causale] FROM Bolle INNER JOIN BolleTipi ON Bolle.[Tipo documento] = BolleTipi.IdTipoDocumento LEFT OUTER JOIN [Causali bolle] ON Bolle.[Causale bolla] = [Causali bolle].[ID causale] WHERE (Bolle.[Tipo documento] = 1 OR Bolle.[Tipo documento] = 2) and [Data Bolla]=CONVERT(datetime,'" & datadoc & "', 103) and ([Causali bolle].[Tipo documento]=1 or [Causali bolle].[Tipo documento]=2) and (Bolle.[Numero bolla] = '" & bolla & "' or [Documento di riferimento]='" & bolla & "') and Intestazione LIKE '" & forn & "%' and [Descrizione causale] like '%VENDITA%'"
+        query = "SELECT Bolle.*, BolleTipi.Descrizione, [Descrizione causale] FROM Bolle INNER JOIN BolleTipi ON Bolle.[Tipo documento] = BolleTipi.IdTipoDocumento LEFT OUTER JOIN [Causali bolle] ON Bolle.[Causale bolla] = [Causali bolle].[ID causale] WHERE (Bolle.[Tipo documento] = 1 OR Bolle.[Tipo documento] = 2)  and ([Causali bolle].[Tipo documento]=1 or [Causali bolle].[Tipo documento]=2) and (Bolle.[Numero bolla] = '" & bolla & "' or [Documento di riferimento]='" & bolla & "') and Intestazione LIKE '" & forn & "%' and [Descrizione causale] like '%VENDITA%'"
         DoBrowse(query, "Bolle")
         If DSSQL.Tables("Bolle").Rows.Count > 0 Then
             riga = DSSQL.Tables("Bolle").Rows(0)
@@ -127,39 +142,30 @@ Public Class Form_11_Carichi_Seriali_Rdy
 
     End Function
 
-    Private Sub btnMail_Click(sender As Object, e As EventArgs) Handles btnMail.Click
-        If WebBrowser1.DocumentText = "" Then
-            MsgBox("Devi effettuare la ricerca dei carichi")
-        Else
-            Dim oMail As New SmtpMail("TryIt")
-            Dim oSmtp As New SmtpClient()
+    Private Sub DataGridView1_CellClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If e.ColumnIndex = 6 Then
+            Dim risultato As Integer = 0
 
-            oMail.From = "noreply@sg-trading.com"
+            Dim doc As String = DataGridView1.Rows(e.RowIndex).Cells(0).Value
+            Dim fornitore As String = DataGridView1.Rows(e.RowIndex).Cells(2).Value
+            Dim data As String = DataGridView1.Rows(e.RowIndex).Cells(1).Value
+            Dim numFattura As String = DataGridView1.Rows(e.RowIndex).Cells(5).Value
 
-            oMail.To = "maurorutigliano@gmail.com"
-
-            Dim oggi As Date = Date.Now()
-            Dim oggiConv = oggi.ToString("dd/MM/yyyy")
-            oMail.Subject = "Carichi del " & oggiConv
-
-            oMail.HtmlBody = WebBrowser1.DocumentText
-
-            Dim oServer As New SmtpServer("smtp.gmail.com")
-
-            oServer.Port = 465
-
-            oServer.ConnectType = SmtpConnectType.ConnectSSLAuto
-
-            oServer.User = "noreply@sg-trading.com"
-            oServer.Password = "noreplySG16"
-            Try
-                oSmtp.SendMail(oServer, oMail)
-                MsgBox("INVIATO!!")
-            Catch ep As Exception
-                MsgBox(ep.Message)
-            End Try
+            If numFattura = "VUOTO" Then
+                MsgBox("Devi inserire il numero di fattura corrispondente!!")
+            Else
+                risultato = updateFatt(numFattura, doc, fornitore, data)
+                If risultato > 0 Then
+                    MsgBox("Fattura inserita correttmente... " & risultato & " righe modificate")
+                    DataGridView1.Rows(e.RowIndex).Cells(4).Style.BackColor = Color.Green
+                Else
+                    MsgBox("Problema!!!! " & risultato & " righe modificate")
+                    DataGridView1.Rows(e.RowIndex).Cells(4).Value = "VUOTO"
+                    DataGridView1.Rows(e.RowIndex).Cells(4).Style.BackColor = Color.Red
+                End If
+            End If
+            'MsgBox(("Row : " + e.RowIndex.ToString & "  Col : ") + e.ColumnIndex.ToString + "contenuto: " & DataGridView1.Rows(e.RowIndex).Cells(4).Value)
         End If
-
     End Sub
 
     Private Sub Carichi_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -167,7 +173,11 @@ Public Class Form_11_Carichi_Seriali_Rdy
         Me.Hide()
     End Sub
 
-    Private Sub WebBrowser1_DocumentCompleted(sender As Object, e As WebBrowserDocumentCompletedEventArgs) Handles WebBrowser1.DocumentCompleted
+    Private Sub TabControl1_TabIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.TabIndexChanged
+        Dim prova As String = TabControl1.SelectedTab.ToString
+    End Sub
 
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        verifica()
     End Sub
 End Class

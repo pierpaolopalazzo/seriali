@@ -32,4 +32,9 @@
         Form_90_Setup.Show()
         Me.Hide()
     End Sub
+
+    Private Sub btnScarichiSerialiRdy_Click(sender As Object, e As EventArgs) Handles btnScarichiSerialiRdy.Click
+        Form_21_Scarichi_Seriali_rdy.Show()
+        Me.Hide()
+    End Sub
 End Class

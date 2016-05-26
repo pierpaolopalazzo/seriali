@@ -41,4 +41,17 @@ Module ModuloSeriali
             Return False
         End Try
     End Function
+    Function updateFatt(ByVal Nfatt As String, ByVal doc As String, ByVal cliente As String, ByVal datadoc As String) As Integer
+        Dim operatore As String = System.Net.Dns.GetHostName & " - " & System.Environment.UserName
+        Dim result As Integer = 0
+        Dim cmd As New MySqlCommand
+        Dim controlloIns As Integer = 0
+        cmd.Connection = ConnMYSQL
+        cmd.CommandType = CommandType.Text
+        cmd.CommandText = "UPDATE seriali set num_fattura='" & Nfatt & "', data_controllo='" & Date.Now.ToString("yyyyMMdd") & "', oreminutisecondi='" & Date.Now.ToString("hhmmss") & "', oper_controllo='" & operatore & "' where doc='" & doc & "' and fornitore ='" & cliente & "' and data='" & datadoc & "'"
+        'ConnMYSQL.Open()
+        result = cmd.ExecuteNonQuery()
+        ConnMYSQL.Close()
+        Return result
+    End Function
 End Module

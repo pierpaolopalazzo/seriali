@@ -97,6 +97,12 @@
     <Compile Include="Form_00_HOME.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form_21_Scarichi_Seriali_rdy.Designer.vb">
+      <DependentUpon>Form_21_Scarichi_Seriali_rdy.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_21_Scarichi_Seriali_rdy.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form_90_Setup.Designer.vb">
       <DependentUpon>Form_90_Setup.vb</DependentUpon>
     </Compile>
@@ -136,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_00_HOME.resx">
       <DependentUpon>Form_00_HOME.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_21_Scarichi_Seriali_rdy.resx">
+      <DependentUpon>Form_21_Scarichi_Seriali_rdy.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_90_Setup.resx">
       <DependentUpon>Form_90_Setup.vb</DependentUpon>
