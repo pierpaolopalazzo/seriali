@@ -31,6 +31,10 @@ Partial Class Form_21_Scarichi_Seriali_rdy
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.txtOrd = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.txtCli = New System.Windows.Forms.TextBox()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -39,21 +43,21 @@ Partial Class Form_21_Scarichi_Seriali_rdy
         '
         'DataIns2
         '
-        Me.DataIns2.Location = New System.Drawing.Point(223, 10)
+        Me.DataIns2.Location = New System.Drawing.Point(224, 9)
         Me.DataIns2.Name = "DataIns2"
         Me.DataIns2.Size = New System.Drawing.Size(200, 20)
         Me.DataIns2.TabIndex = 14
         '
         'DataIns
         '
-        Me.DataIns.Location = New System.Drawing.Point(12, 10)
+        Me.DataIns.Location = New System.Drawing.Point(12, 9)
         Me.DataIns.Name = "DataIns"
         Me.DataIns.Size = New System.Drawing.Size(200, 20)
         Me.DataIns.TabIndex = 13
         '
         'btnMail
         '
-        Me.btnMail.Location = New System.Drawing.Point(520, 9)
+        Me.btnMail.Location = New System.Drawing.Point(1085, 8)
         Me.btnMail.Name = "btnMail"
         Me.btnMail.Size = New System.Drawing.Size(75, 23)
         Me.btnMail.TabIndex = 12
@@ -62,7 +66,7 @@ Partial Class Form_21_Scarichi_Seriali_rdy
         '
         'btnVerifica
         '
-        Me.btnVerifica.Location = New System.Drawing.Point(434, 9)
+        Me.btnVerifica.Location = New System.Drawing.Point(998, 8)
         Me.btnVerifica.Name = "btnVerifica"
         Me.btnVerifica.Size = New System.Drawing.Size(75, 23)
         Me.btnVerifica.TabIndex = 11
@@ -118,11 +122,49 @@ Partial Class Form_21_Scarichi_Seriali_rdy
         Me.TabPage2.Text = "Verifica"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'txtOrd
+        '
+        Me.txtOrd.Location = New System.Drawing.Point(511, 9)
+        Me.txtOrd.Name = "txtOrd"
+        Me.txtOrd.Size = New System.Drawing.Size(113, 20)
+        Me.txtOrd.TabIndex = 17
+        Me.txtOrd.Tag = ""
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(436, 13)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(63, 13)
+        Me.Label1.TabIndex = 18
+        Me.Label1.Text = "Num Ordine"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(636, 13)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(39, 13)
+        Me.Label2.TabIndex = 20
+        Me.Label2.Text = "Cliente"
+        '
+        'txtCli
+        '
+        Me.txtCli.Location = New System.Drawing.Point(687, 9)
+        Me.txtCli.Name = "txtCli"
+        Me.txtCli.Size = New System.Drawing.Size(299, 20)
+        Me.txtCli.TabIndex = 19
+        Me.txtCli.Tag = ""
+        '
         'Form_21_Scarichi_Seriali_rdy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1184, 696)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.txtCli)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.txtOrd)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.DataIns2)
         Me.Controls.Add(Me.DataIns)
@@ -135,6 +177,7 @@ Partial Class Form_21_Scarichi_Seriali_rdy
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -147,4 +190,8 @@ Partial Class Form_21_Scarichi_Seriali_rdy
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents txtOrd As TextBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents txtCli As TextBox
 End Class

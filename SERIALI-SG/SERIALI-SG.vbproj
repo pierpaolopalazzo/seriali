@@ -109,6 +109,12 @@
     <Compile Include="Form_90_Setup.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form_23_Dettaglio_scarico.Designer.vb">
+      <DependentUpon>Form_23_Dettaglio_scarico.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_23_Dettaglio_scarico.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ModuloReady.vb" />
     <Compile Include="ModuloSeriali.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -148,6 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_90_Setup.resx">
       <DependentUpon>Form_90_Setup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_23_Dettaglio_scarico.resx">
+      <DependentUpon>Form_23_Dettaglio_scarico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

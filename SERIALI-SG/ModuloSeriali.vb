@@ -29,6 +29,7 @@ Module ModuloSeriali
             Return False
         End Try
     End Function
+
     Function MyDoBrowse2(ByVal str As String, ByVal tab As String) As Boolean
         Try
             ApriConnessione()
@@ -41,6 +42,7 @@ Module ModuloSeriali
             Return False
         End Try
     End Function
+
     Function updateFatt(ByVal Nfatt As String, ByVal doc As String, ByVal cliente As String, ByVal datadoc As String) As Integer
         Dim operatore As String = System.Net.Dns.GetHostName & " - " & System.Environment.UserName
         Dim result As Integer = 0

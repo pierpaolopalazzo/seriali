@@ -12,12 +12,20 @@
         Dim data2 As Date = DataIns2.Value
         Dim data2Conv = data2.ToString("yyyyMMdd")
 
+        Dim filtri As String = ""
+        If txtCli.Text <> "" Then
+            filtri += " AND FORNITORE LIKE '%" & txtCli.Text.Trim & "%' "
+        End If
+        If txtOrd.Text <> "" Then
+            filtri += " AND DOC = '" & txtOrd.Text.Trim & "' "
+        End If
+
         Dim righetotali As Integer
         Dim paginaReady As String
         Dim paginaSeriali As String
         Dim risultato As String = ""
 
-        MyDoBrowse("SELECT DOC, DATA, FORNITORE, DATADOC, count(SERIALE) AS TOT, IFNULL(num_fattura, 'VUOTO') as FATTURA FROM SERIALI WHERE DATA>='" & data1Conv & "' AND  DATA<='" & data2Conv & "' AND CARICATO='SCARICO' GROUP BY DOC, DATA, FORNITORE, datadoc ORDER BY DOC", "SERIALI")
+        MyDoBrowse("SELECT DOC, DATA, FORNITORE, DATADOC, count(SERIALE) AS TOT, IFNULL(num_fattura, 'VUOTO') as FATTURA FROM SERIALI WHERE DATA>='" & data1Conv & "' AND  DATA<='" & data2Conv & "' AND CARICATO='SCARICO' " & filtri & " GROUP BY DOC, DATA, FORNITORE, datadoc ORDER BY DOC", "SERIALI")
 
         Try
             righetotali = DSMYSQL.Tables("SERIALI").Rows.Count
@@ -146,25 +154,31 @@
         If e.ColumnIndex = 6 Then
             Dim risultato As Integer = 0
 
-            Dim doc As String = DataGridView1.Rows(e.RowIndex).Cells(0).Value
+            Dim docum As String = DataGridView1.Rows(e.RowIndex).Cells(0).Value
             Dim fornitore As String = DataGridView1.Rows(e.RowIndex).Cells(2).Value
             Dim data As String = DataGridView1.Rows(e.RowIndex).Cells(1).Value
             Dim numFattura As String = DataGridView1.Rows(e.RowIndex).Cells(5).Value
 
-            If numFattura = "VUOTO" Then
-                MsgBox("Devi inserire il numero di fattura corrispondente!!")
-            Else
-                risultato = updateFatt(numFattura, doc, fornitore, data)
-                If risultato > 0 Then
-                    MsgBox("Fattura inserita correttmente... " & risultato & " righe modificate")
-                    DataGridView1.Rows(e.RowIndex).Cells(4).Style.BackColor = Color.Green
-                Else
-                    MsgBox("Problema!!!! " & risultato & " righe modificate")
-                    DataGridView1.Rows(e.RowIndex).Cells(4).Value = "VUOTO"
-                    DataGridView1.Rows(e.RowIndex).Cells(4).Style.BackColor = Color.Red
-                End If
-            End If
-            'MsgBox(("Row : " + e.RowIndex.ToString & "  Col : ") + e.ColumnIndex.ToString + "contenuto: " & DataGridView1.Rows(e.RowIndex).Cells(4).Value)
+            Dim formDettaglio As New Form_23_Dettaglio_scarico()
+            formDettaglio.VarDoc = docum
+            formDettaglio.VarForn = fornitore
+            formDettaglio.VarData = data
+            formDettaglio.Show()
+
+            'If numFattura = "VUOTO" Then
+            '    MsgBox("Devi inserire il numero di fattura corrispondente!!")
+            'Else
+            '    risultato = updateFatt(numFattura, doc, fornitore, data)
+            '    If risultato > 0 Then
+            '        MsgBox("Fattura inserita correttmente... " & risultato & " righe modificate")
+            '        DataGridView1.Rows(e.RowIndex).Cells(5).Style.BackColor = Color.Green
+            '    Else
+            '        MsgBox("Problema!!!! " & risultato & " righe modificate")
+            '        DataGridView1.Rows(e.RowIndex).Cells(5).Value = "VUOTO"
+            '        DataGridView1.Rows(e.RowIndex).Cells(5).Style.BackColor = Color.Red
+            '    End If
+            'End If
+
         End If
     End Sub
 
