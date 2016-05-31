@@ -27,7 +27,9 @@ Partial Class Form_23_Dettaglio_scarico
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.DataGridRDY = New System.Windows.Forms.DataGridView()
         CType(Me.DataGridDettaglio, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataGridRDY, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'DataGridDettaglio
@@ -37,7 +39,7 @@ Partial Class Form_23_Dettaglio_scarico
         Me.DataGridDettaglio.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Chk})
         Me.DataGridDettaglio.Location = New System.Drawing.Point(13, 55)
         Me.DataGridDettaglio.Name = "DataGridDettaglio"
-        Me.DataGridDettaglio.Size = New System.Drawing.Size(881, 577)
+        Me.DataGridDettaglio.Size = New System.Drawing.Size(881, 232)
         Me.DataGridDettaglio.TabIndex = 0
         '
         'Chk
@@ -73,11 +75,20 @@ Partial Class Form_23_Dettaglio_scarico
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Numero Fattura/DDT"
         '
+        'DataGridRDY
+        '
+        Me.DataGridRDY.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridRDY.Location = New System.Drawing.Point(13, 305)
+        Me.DataGridRDY.Name = "DataGridRDY"
+        Me.DataGridRDY.Size = New System.Drawing.Size(881, 296)
+        Me.DataGridRDY.TabIndex = 4
+        '
         'Form_23_Dettaglio_scarico
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(906, 644)
+        Me.Controls.Add(Me.DataGridRDY)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox1)
@@ -85,6 +96,7 @@ Partial Class Form_23_Dettaglio_scarico
         Me.Name = "Form_23_Dettaglio_scarico"
         Me.Text = "Form_Dettaglio_scarico"
         CType(Me.DataGridDettaglio, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataGridRDY, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -95,4 +107,5 @@ Partial Class Form_23_Dettaglio_scarico
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button1 As Button
     Friend WithEvents Label1 As Label
+    Friend WithEvents DataGridRDY As DataGridView
 End Class
